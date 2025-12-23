@@ -56,7 +56,7 @@
 \cortext[cor1]{Corresponding author}
 
 \begin{abstract}
-We present QSOT (Quantum State Over Time) Compiler v1.2.3, a production-ready Python framework for automated verification of relativistic quantum channel dynamics. Unlike prior tools limited to analytical approximations or non-relativistic regimes, QSOT integrates special relativistic velocity corrections, automated axiom validation (linearity, trace preservation $<10^{-16}$), and experimental protocol generation in a unified Docker-deployable architecture. The system implements a five-stage pipeline: (1) State initialization, (2) Lorentz-boosted quantum evolution, (3) Transfer Tensor Method (TTM) for non-Markovianity detection, (4) PyTorch-based optimization, and (5) Lab protocol synthesis. We demonstrate the system's numerical stability and its ability to discover critical relativistic effects near the causal horizon.
+We present QSOT (Quantum State Over Time) Compiler v1.2.3, an open-source Python framework for automated verification of relativistic quantum channel dynamics. QSOT integrates Lorentz-boosted channel deformation, automated axiom validation (linearity and trace preservation), Transfer Tensor Method (TTM) analysis, and AI-assisted protocol synthesis in a unified, Docker-deployable pipeline. We provide reproducible commands, example input formats for state and channel specifications, and a benchmark protocol against Qiskit Aer with matched channel definitions. A spectral truncation strategy ($\epsilon_{\mathrm{cut}} = 10^{-12}$) reduces TTM cost while preserving numerical accuracy, and stability is demonstrated up to $\beta = v/c = 0.99$. Scripts for data generation and plotting are included as supplementary materials.
 \end{abstract}
 
 \begin{keyword}
@@ -81,7 +81,7 @@ Quantum simulation \sep Special relativity \sep Automated verification \sep Prot
 \linenumbers
 
 \section{Introduction}
-Quantum information processing under special relativistic conditions represents an emerging research frontier [1-3]. While foundational work established theoretical frameworks, computational tools remain fragmented. We introduce the QSOT-Compiler to bridge the gap between high-energy theory and verifiable quantum experimentation.
+Quantum information processing under special relativistic conditions represents an emerging research frontier [1-3]. While foundational work established theoretical frameworks, computational tools remain fragmented. We introduce the QSOT-Compiler to bridge the gap between high-energy theory and verifiable quantum experimentation. A companion physics manuscript (Paper B) reports the relativistic coherence results (arXiv: TBD).
 
 \section{System Architecture}
 The system operates as a containerized microservice. The core pipeline consists of:
@@ -93,6 +93,19 @@ The system operates as a containerized microservice. The core pipeline consists 
     \item \textbf{AI Optimizer:} Synthesizes measurement protocols.
 \end{itemize}
 
+\subsection{Reproducibility: Docker, Inputs, and Scripts}
+We provide a fully containerized workflow for reproducibility. The reference commands are:
+\begin{verbatim}
+docker build -t qsot-compiler .
+docker run --rm -p 8000:8000 -p 8501:8501 qsot-compiler
+\end{verbatim}
+For CLI reproduction, we include example inputs in \texttt{config/} and a single-run entrypoint:
+\begin{verbatim}
+python scripts/asdp_run.py --rho0 config/rho0.json \
+  --channels config/channels.json --velocity 0.5 --outdir artifacts/demo
+\end{verbatim}
+The input format uses explicit real/imaginary matrices: \texttt{rho0.json} contains \texttt{re}/\texttt{im} fields for the density matrix, and \texttt{channels.json} is a list of Kraus operators with the same schema. Requirements (requirements.txt and pyproject.toml) and installation guidance are documented in the project README (GitHub repository). Raw data and plotting scripts are included in the repository and intended for Zenodo and arXiv ancillary upload.
+
 \section{Core Algorithms}
 
 \subsection{Relativistic Injection}
@@ -102,7 +115,7 @@ To simulate the observer's motion, we deform the Kraus operators of the quantum 
 p'(\beta) = 1 - (1 - p)^{\gamma}, \quad \text{where} \quad \gamma = \frac{1}{\sqrt{1 - \beta^2}}
 \end{equation}
 
-This formulation ensures that decoherence rates scale non-linearly near the speed of light.
+Equation (1) is derived for amplitude-damping channels. For general channels, we apply the Lorentz boost to each Kraus operator through its underlying rate parameterization (or an equivalent Lindblad rate), yielding a consistent deformation across channel families.
 
 \begin{lstlisting}[language=Python, caption=Relativistic Boost Implementation]
 def boost_damping_channel(prob: float, beta: float) -> float:
@@ -117,17 +130,18 @@ The core bottleneck lies in the Transfer Tensor Method (TTM). The exact computat
 \begin{equation}
 \mathcal{C}_{TTM} \approx O(N d^4)
 \end{equation}
+Here, $N$ is the number of time steps and $d$ is the Hilbert space dimension of the system. The choice $\epsilon_{cut} = 10^{-12}$ follows convergence tests that balance numerical stability and runtime; details are provided in the supplementary benchmark notes.
 
 \section{Validation and Benchmarks}
 
 \subsection{Numerical Stability}
-We validated the system under relativistic regimes ($v=0.99c$). The maximum axiomatic deviation (Trace preservation and Linearity) remained within machine epsilon:
+We validated the system under relativistic regimes ($\beta=0.99$). The maximum axiomatic deviation (Trace preservation and Linearity) remained within machine epsilon:
 \begin{equation}
 \delta_{max} = \max_{t} | \text{Tr}(\rho_t) - 1 | \approx 2.2 \times 10^{-16}
 \end{equation}
 
 \subsection{Hardware Benchmarks}
-We compared the execution time of QSOT's TTM engine against a standard Qiskit Aer (statevector) backend for a non-Markovian system (10 steps). QSOT achieved a 40x speedup (0.42s vs 16.8s) by avoiding full Hilbert space expansion for the bath, demonstrating suitability for NISQ-era verification.
+We compared the execution time of QSOT's TTM engine against a standard Qiskit Aer (statevector) backend for a non-Markovian system (10 steps). QSOT achieved a 40x speedup (0.42s vs 16.8s) by avoiding full Hilbert space expansion for the bath, demonstrating suitability for NISQ-era verification. Hardware: \textbf{CPU: [FILL]}, \textbf{RAM: [FILL]}, \textbf{OS: [FILL]}. The Aer baseline uses the same Kraus channel sequence and time-step schedule; reproducibility commands and plotting scripts are provided in the supplementary material (see \texttt{scripts/experiment\_grand\_sweep.py} and \texttt{scripts/plot\_paper\_figure.py}).
 
 \subsection{Comparison with Existing Tools}
 Table \ref{tab:comparison} highlights the unique position of QSOT-Compiler compared to standard and tensor-based tools.
@@ -149,7 +163,7 @@ NISQ Optimization & \textbf{AI-Driven} & N/A & Transpiler & Contraction \\
 \end{table}
 
 \subsection{Scalability & Limitations}
-While currently limited to $\approx 14$ qubits (16GB RAM) due to density matrix storage, we propose integrating Matrix Product State (MPS) decomposition to extend this limit to $40+$ qubits in future versions. Scalability tests on the Docker API showed linear scaling up to 50 concurrent container instances.
+The current limit of $\approx 14$ qubits (16GB RAM) follows from full density matrix storage: $2^{14} \times 2^{14} \approx 2.7 \times 10^8$ complex elements. To extend beyond this regime, we plan to integrate MPS-based solvers (e.g., TEBD or DMRG-style updates) for low-entanglement regimes. Scalability tests on the Docker API showed linear scaling up to 50 concurrent container instances.
 
 \section{Conclusion}
 QSOT-Compiler provides a robust, automated platform for relativistic quantum research. By guaranteeing numerical stability and offering seamless protocol synthesis, it paves the way for testing fundamental physics using quantum technologies.
@@ -161,6 +175,8 @@ QSOT-Compiler provides a robust, automated platform for relativistic quantum res
     \item J. R. Johansson et al., \textit{QuTiP 2: A Python framework for the dynamics of open quantum systems}, Comput. Phys. Commun. 184, 1234 (2013). (See also QuTiP 5 release).
     \item S. K. Liao et al., \textit{Satellite-to-ground quantum key distribution}, Nature 549, 43 (2017). (Relativistic QKD context).
     \item D. Bedingham et al., \textit{Relativistic collapse models}, Nat. Commun. 9, 1453 (2018).
+    \item QuTiP 5 Project, \textit{The Quantum Toolbox in Python} (2023). https://qutip.org/.
+    \item [PLACEHOLDER] Recent experimental demonstrations in relativistic quantum information (2020--2024); insert specific citations here.
 \end{enumerate}
 
 \begin{figure}[h]
@@ -171,3 +187,11 @@ QSOT-Compiler provides a robust, automated platform for relativistic quantum res
 \end{figure}
 
 \end{document}
+
+
+
+
+
+
+
+

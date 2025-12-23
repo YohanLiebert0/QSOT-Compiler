@@ -24,8 +24,8 @@ plt.rcParams.update(
 # Create figure
 fig, ax1 = plt.subplots(figsize=(8, 5.5))
 
-# Quantum Correlation (blue, left axis)
-color1 = "tab:blue"
+# Quantum Correlation (colorblind-friendly)
+color1 = "#0072B2"
 ax1.set_xlabel(
     "Observer Velocity (beta = v/c)",
     fontsize=14,
@@ -47,9 +47,9 @@ ax1.tick_params(axis="y", labelcolor=color1)
 ax1.set_ylim(0, 1.1)
 ax1.grid(True, alpha=0.3)
 
-# Memory Backflow (red, right axis)
+# Memory Backflow (colorblind-friendly)
 ax2 = ax1.twinx()
-color2 = "tab:red"
+color2 = "#D55E00"
 ax2.set_ylabel("Non-Markovianity", color=color2, fontsize=13)
 ax2.plot(
     df["velocity"],
