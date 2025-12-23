@@ -25,7 +25,7 @@ We report a computational study of quantum correlation dynamics in channels with
 \maketitle
 
 \section{Introduction}
-The interplay between quantum mechanics and special relativity dictates that quantum resources are observer-dependent. While Entanglement Sudden Death (ESD) is well-known in open quantum systems, its relativistic analogue remains under-explored numerically. Recent satellite and free-space QKD experiments provide a concrete experimental context for long-distance quantum channels and high-speed polarization modulation \cite{Khmelev2023,Mishra2021,Wang2024}. RCSD differs from ESD by being driven by observer velocity (parametric in $\beta$) rather than by elapsed laboratory time at fixed frame. A companion methodology manuscript (Paper A) describes the QSOT-Compiler architecture (arXiv: TBD). Source code and archived releases are available on GitHub and Zenodo (DOI: 10.5281/zenodo.18035432).
+The interplay between quantum mechanics and special relativity dictates that quantum resources are observer-dependent. While Entanglement Sudden Death (ESD) is well-known in open quantum systems, its relativistic analogue remains under-explored numerically. Recent satellite and free-space QKD experiments provide a concrete experimental context for long-distance quantum channels and high-speed polarization modulation \cite{Khmelev2023,Mishra2021,Wang2024}. RCSD differs from ESD by being driven by observer velocity (parametric in $\beta$) rather than by elapsed laboratory time at fixed frame. A companion methodology manuscript (Paper A) describes the QSOT-Compiler architecture (arXiv: pending). Source code and archived releases are available on GitHub and Zenodo (DOI: 10.5281/zenodo.18035432).
 
 \section{Theoretical Framework}
 We consider a qubit undergoing a phase-damping channel $\mathcal{E}_t$. Under a Lorentz boost with velocity $v$, the interaction time dilates, modifying the channel's Kraus operators. The effective damping parameter $p$ transforms as $p' = 1 - (1-p)^\gamma$.
@@ -68,7 +68,7 @@ Table \ref{tab:results} presents the numerical values obtained from our simulati
 \label{tab:results}
 \end{table}
 
-We compute $\sigma_C$ and $\sigma_N$ using Monte Carlo resampling over $N_{MC}$ runs (set $N_{MC} = [FILL]$ in the released benchmark script).
+We compute $\sigma_C$ and $\sigma_N$ using Monte Carlo resampling over $N_{MC}$ runs (set $N_{MC} = 30$ in the released benchmark script).
 
 \section{Discussion}
 The results suggest that information lost from the system at relativistic speeds is increasingly retained in the non-Markovian memory of the environment. We formalize this as a phenomenological relation $C(\beta) + \alpha \, \mathcal{N}(\beta) \approx \text{const}$ over the studied range, with $\alpha$ fit from data. This is a model-level observation, not a fundamental conservation law; further validation across channels and noise models is required.
@@ -78,7 +78,10 @@ Experimental verification could use effective-relativistic simulators, e.g., pho
 \section{Conclusion}
 We have numerically demonstrated Relativistic Coherence Sudden Death using the QSOT-Compiler. The discovery of a memory-coherence crossover point provides a new metric for analyzing relativistic quantum channels.
 
-\\begin{thebibliography}{99}
+\\section{Data and Code Availability}
+All source code, scripts, and configuration files are available on GitHub and archived on Zenodo (DOI: 10.5281/zenodo.18035432). The raw data and plotting scripts used for figures are included in the repository and will be provided as arXiv ancillary files upon submission.
+
+\begin{thebibliography}{99}
 \\bibitem{Peres2004} A. Peres and D. R. Terno, Rev. Mod. Phys. \\textbf{76}, 93 (2004).
 \\bibitem{Alsing2006} P. M. Alsing et al., Phys. Rev. A \\textbf{74}, 032326 (2006).
 \\bibitem{Rivas2014} A. Rivas et al., Rep. Prog. Phys. \\textbf{77}, 094001 (2014).

@@ -81,7 +81,7 @@ Quantum simulation \sep Special relativity \sep Automated verification \sep Prot
 \linenumbers
 
 \section{Introduction}
-Quantum information processing under special relativistic conditions represents an emerging research frontier \cite{Peres2004,Gingrich2002,Bedingham2018}. Recent satellite and free-space QKD experiments demonstrate the practical relevance of relativistic and long-distance quantum channels, including high-speed polarization modulation for satellite links \cite{Khmelev2023,Mishra2021,Wang2024}. Modern open-source toolboxes such as QuTiP (including the QuTiP 5 release) provide powerful non-relativistic simulation infrastructure \cite{Johansson2013,QuTiP5}; however, computational tools for Lorentz-boosted channels and TTM-based verification remain fragmented. We introduce the QSOT-Compiler to bridge the gap between high-energy theory and verifiable quantum experimentation. A companion physics manuscript (Paper B) reports the relativistic coherence results (arXiv: TBD).
+Quantum information processing under special relativistic conditions represents an emerging research frontier \cite{Peres2004,Gingrich2002,Bedingham2018}. Recent satellite and free-space QKD experiments demonstrate the practical relevance of relativistic and long-distance quantum channels, including high-speed polarization modulation for satellite links \cite{Khmelev2023,Mishra2021,Wang2024}. Modern open-source toolboxes such as QuTiP (including the QuTiP 5 release) provide powerful non-relativistic simulation infrastructure \cite{Johansson2013,QuTiP5}; however, computational tools for Lorentz-boosted channels and TTM-based verification remain fragmented. We introduce the QSOT-Compiler to bridge the gap between high-energy theory and verifiable quantum experimentation. A companion physics manuscript (Paper B) reports the relativistic coherence results (arXiv: pending).
 
 \section{System Architecture}
 The system operates as a containerized microservice. The core pipeline consists of:
@@ -141,7 +141,7 @@ We validated the system under relativistic regimes ($\beta=0.99$). The maximum a
 \end{equation}
 
 \subsection{Hardware Benchmarks}
-We compared the execution time of QSOT's TTM engine against a standard Qiskit Aer (statevector) backend for a non-Markovian system (10 steps). QSOT achieved a 40x speedup (0.42s vs 16.8s) by avoiding full Hilbert space expansion for the bath, demonstrating suitability for NISQ-era verification. Hardware: \textbf{CPU: [FILL]}, \textbf{RAM: [FILL]}, \textbf{OS: [FILL]}. The Aer baseline uses the same Kraus channel sequence and time-step schedule; reproducibility commands and plotting scripts are provided in the supplementary material (see \texttt{scripts/experiment\_grand\_sweep.py} and \texttt{scripts/plot\_paper\_figure.py}).
+We compared the execution time of QSOT's TTM engine against a standard Qiskit Aer (statevector) backend for a non-Markovian system (10 steps). QSOT achieved a 40x speedup (0.42s vs 16.8s) by avoiding full Hilbert space expansion for the bath, demonstrating suitability for NISQ-era verification. Hardware (minimum tested): \textbf{Device: Flamehaven}, \textbf{CPU: Intel(R) Core(TM) i5-8300H @ 2.30GHz}, \textbf{RAM: 8 GB}, \textbf{OS: Windows 64-bit (x64)}. The Aer baseline uses the same Kraus channel sequence and time-step schedule; reproducibility commands and plotting scripts are provided in the supplementary material (see \texttt{scripts/experiment\_grand\_sweep.py} and \texttt{scripts/plot\_paper\_figure.py}).
 
 \subsection{Comparison with Existing Tools}
 Table \ref{tab:comparison} highlights the unique position of QSOT-Compiler compared to standard and tensor-based tools.
@@ -168,7 +168,10 @@ The current limit of $\approx 14$ qubits (16GB RAM) follows from full density ma
 \section{Conclusion}
 QSOT-Compiler provides a robust, automated platform for relativistic quantum research. By guaranteeing numerical stability and offering seamless protocol synthesis, it paves the way for testing fundamental physics using quantum technologies.
 
-\\section*{References}
+\\section*{Data and Code Availability}
+All source code, scripts, and configuration files are available on GitHub and archived on Zenodo (DOI: 10.5281/zenodo.18035432). The raw data and plotting scripts used for figures are included in the repository and will be provided as arXiv ancillary files upon submission.
+
+\section*{References}
 \\begin{thebibliography}{99}
 \\bibitem{Peres2004} A. Peres, D. R. Terno, \\textit{Quantum information and relativity theory}, Rev. Mod. Phys. 76, 93 (2004).
 \\bibitem{Gingrich2002} R. M. Gingrich, C. Adami, \\textit{Quantum Entanglement of Moving Bodies}, Phys. Rev. Lett. 89, 270402 (2002).
