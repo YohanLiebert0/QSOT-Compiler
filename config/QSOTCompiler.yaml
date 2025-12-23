@@ -1,0 +1,43 @@
+schema: asdp.sovdef.v2
+kind: modal
+id: flamehaven.toe.qsot_compiler
+name: QSOTCompiler
+version: 1.2.3  # Open Source Release
+
+execution:
+  runtime: python
+  entrypoint: qsot_compiler:run
+
+parameters:
+  observer_velocity:
+    type: float
+    default: 0.0
+    description: "Velocity (beta = v/c) for relativistic frame boost"
+
+gates:
+  - id: axiom1_linearity_in_initial_state
+    description: "F(pρ+(1-p)σ) = pF(ρ)+(1-p)F(σ) — Monte Carlo validation"
+  - id: axiom2_quantum_conditionability
+    description: "Sequential + skip consistency, Hermitian/Tr=1/PSD checks"
+  - id: check_causality_violation
+    description: "Memory kernel superluminal signaling heuristic"
+
+artifacts:
+  - id: qsot_state
+    type: npz
+    description: "Time-multipartite density matrices (rho_0, rho_1, ...)"
+  - id: kd_quasiprob
+    type: json
+    description: "Kirkwood-Dirac quasi-probability distribution"
+  - id: gate_report
+    type: json
+    description: "Gate pass/fail + deviation metrics"
+  - id: trace_log
+    type: jsonl
+    description: "SHA256 hash-chained audit trail"
+  - id: replay_bundle
+    type: json
+    description: "Deterministic replay metadata + checksums"
+  - id: toe_accessibility
+    type: json
+    description: "Final TOE score [0,1] + breakdown"
