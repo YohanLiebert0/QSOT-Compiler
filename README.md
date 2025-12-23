@@ -5,6 +5,7 @@
 > **"Time is not just a parameter; it is an entangled quantum state."**
 
 The **QSOT (Quantum State Over Time) Compiler** is the core engine of the **Flamehaven TOE (Theory of Everything)** framework. It validates the "Time-as-State" hypothesis by treating temporal evolution as a quantum correlation problem, using **AI-Driven Optimization** and **Relativistic Corrections** to map the causal horizon.
+<div style="margin-top:40px;"></div>
 
 ![QSOT Dashboard](docs/Screenshot.png)
 *Prism UI: Relativistic Quantum State Analyzer with Glassmorphism Design*
