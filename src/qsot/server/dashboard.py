@@ -21,7 +21,7 @@ CHANS_FILE = "chans_tmp.json"
 st.set_page_config(
     page_title="QSOT Compiler v1.2.3",
     layout="wide",
-    page_icon="Q",
+    page_icon="🌌",
 )
 
 # CSS: Prism 'Voidwalker' Theme [Drift-Free]
@@ -90,18 +90,18 @@ def load_json(name):
 
 # --- [SECTION 1] Sidebar Layout ---
 with st.sidebar:
-    st.markdown("## [>] Simulation Engine")
+    st.markdown("## 🚀 Simulation Engine")
 
     # Controls
-    if st.button("RUN SIMULATION", type="primary", width="stretch"):
+    if st.button("🚀 RUN SIMULATION", type="primary", width="stretch"):
         st.session_state["run_triggered"] = True
 
     st.markdown("---")
 
     # Parameters
-    st.markdown("### [T] Configuration")
+    st.markdown("### ⚙️ Configuration")
     velocity = st.slider(
-        "Observer Velocity (beta = v/c)",
+        "Observer Velocity (β = v/c)",
         0.0,
         0.99,
         0.5,
@@ -121,25 +121,25 @@ with st.sidebar:
     st.markdown("---")
 
     # Artifacts Download
-    st.markdown("### [L] Artifacts")
+    st.markdown("### 📥 Artifacts")
     if ARTIFACTS_DIR.exists():
         if (ARTIFACTS_DIR / "LAB_PROTOCOL.txt").exists():
             st.download_button(
-                "[L] Lab Protocol",
+                "📜 Lab Protocol",
                 get_file_content("LAB_PROTOCOL.txt"),
                 "protocol.txt",
                 width="stretch",
             )
         if (ARTIFACTS_DIR / "qsot_state.npz").exists():
             st.download_button(
-                "[*] Raw State (NPZ)",
+                "💾 Raw State (NPZ)",
                 get_file_content("qsot_state.npz"),
                 "state.npz",
                 width="stretch",
             )
         if (ARTIFACTS_DIR / "trace.jsonl").exists():
             st.download_button(
-                "[#] Execution Trace",
+                "⛓️ Execution Trace",
                 get_file_content("trace.jsonl"),
                 "trace.jsonl",
                 width="stretch",
@@ -148,7 +148,7 @@ with st.sidebar:
         st.caption("Visualizations:")
         if (ARTIFACTS_DIR / "viz_kd_heatmap.png").exists():
             st.download_button(
-                "[*] KD Heatmap (PNG)",
+                "🖼️ KD Heatmap (PNG)",
                 get_file_content("viz_kd_heatmap.png"),
                 "kd_heatmap.png",
                 mime="image/png",
@@ -156,7 +156,7 @@ with st.sidebar:
             )
         if (ARTIFACTS_DIR / "viz_entanglement.png").exists():
             st.download_button(
-                "[*] Entanglement Plot (PNG)",
+                "🖼️ Entanglement Plot (PNG)",
                 get_file_content("viz_entanglement.png"),
                 "entanglement.png",
                 mime="image/png",
@@ -164,7 +164,7 @@ with st.sidebar:
             )
         if (ARTIFACTS_DIR / "viz_gate_metrics.png").exists():
             st.download_button(
-                "[*] Gate Metrics (PNG)",
+                "🖼️ Gate Metrics (PNG)",
                 get_file_content("viz_gate_metrics.png"),
                 "gate_metrics.png",
                 mime="image/png",
@@ -172,7 +172,7 @@ with st.sidebar:
             )
         if (ARTIFACTS_DIR / "viz_memory_kernel.png").exists():
             st.download_button(
-                "[*] Memory Kernel (PNG)",
+                "🖼️ Memory Kernel (PNG)",
                 get_file_content("viz_memory_kernel.png"),
                 "memory_kernel.png",
                 mime="image/png",
@@ -184,7 +184,7 @@ with st.sidebar:
 
 # --- [SECTION 2] Logic Execution (Triggered by Sidebar Button) ---
 if st.session_state.get("run_triggered", False):
-    st.info("[>] Starting Simulation Pipeline...")
+    st.info("🚀 Starting Simulation Pipeline...", icon="⚙️")
     with st.spinner(f"Compiling Quantum States (v={velocity}c)..."):
         try:
             # Determine path to scripts (relative to dashboard.py root)
@@ -278,7 +278,7 @@ if st.session_state.get("run_triggered", False):
             st.session_state["run_triggered"] = False
 
 # --- [SECTION 3] Main View (Display) ---
-st.title("Flamehaven QSOT Compiler")
+st.title("⚛️ Flamehaven QSOT Compiler")
 st.markdown("### v1.2.3: Causal Horizon Module (Relativistic Entanglement)")
 
 if ARTIFACTS_DIR.exists():
@@ -317,10 +317,10 @@ if ARTIFACTS_DIR.exists():
     # Tabs
     tab1, tab2, tab3, tab4 = st.tabs(
         [
-            "[=] Visualizations",
-            "[*] Entanglement",
-            "[*] Memory Kernel",
-            "[L] Lab Protocol",
+            "📊 Visualizations",
+            "🕸️ Entanglement",
+            "🧠 Memory Kernel",
+            "🔬 Lab Protocol",
         ]
     )
 
@@ -381,16 +381,16 @@ if ARTIFACTS_DIR.exists():
             delta_color="normal" if optimized_val < 0 else "off",
         )
 
-        st.markdown("### Experimental Setup (Waveplate Angles)")
+        st.markdown("### 🧬 Experimental Setup (Waveplate Angles)")
         if (ARTIFACTS_DIR / "LAB_PROTOCOL.txt").exists():
             st.code((ARTIFACTS_DIR / "LAB_PROTOCOL.txt").read_text(encoding="utf-8"))
 
         st.markdown("---")
-        with st.expander("View Raw Optimization Result (JSON)"):
+        with st.expander("🔍 View Raw Optimization Result (JSON)"):
             if opt_res:
                 st.json(opt_res)
             else:
                 st.info("No optimization result found.")
 
 else:
-    st.info("Use the **Simulation Engine** in the sidebar to start.")
+    st.info("👈 Use the **Simulation Engine** in the Sidebar to start.")

@@ -4,9 +4,14 @@
 
 import argparse
 import json
+import logging
 from pathlib import Path
 
 import numpy as np
+
+logger = logging.getLogger(__name__)
+
+DEFAULT_OPTIMIZER_PATIENCE = 20
 
 # Optional Torch Import
 try:
@@ -57,7 +62,7 @@ def run_kd_optimization(
     out_path: str,
     steps=200,
     lr=0.1,
-    patience=20,
+    patience=DEFAULT_OPTIMIZER_PATIENCE,
     min_delta=1e-6,
 ):
     """
@@ -88,8 +93,8 @@ def run_kd_optimization(
             raise ValueError(f"No rho states found in {state_path}")
         last_key = sorted(keys)[-1]
         rho = data[last_key]
-    except Exception as e:
-        print(f"[-] Error loading state: {e}")
+    except (FileNotFoundError, KeyError, OSError, ValueError) as e:
+        logger.error("Failed to load state: %s", e)
         Path(out_path).write_text(
             json.dumps({"optimized_value": 0.0, "error": str(e)}, indent=2)
         )

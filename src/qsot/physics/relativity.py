@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 # relativity.py - Relativistic Channel Boosting [v0.2.0]
 
-from typing import List
-
 import numpy as np
 
 
@@ -26,7 +24,7 @@ def boost_damping_channel(prob: float, beta: float) -> float:
     return 1.0 - np.power(1.0 - prob, gamma)
 
 
-def apply_time_dilation(times: List[float], beta: float) -> List[float]:
+def apply_time_dilation(times: list[float], beta: float) -> list[float]:
     """t' = gamma * t"""
     gamma = lorentz_factor(beta)
     return [t * gamma for t in times]

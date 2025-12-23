@@ -1,4 +1,4 @@
-# Security Policy 🛡️
+# Security Policy [#]
 
 ## Supported Versions
 Only the latest version of the QSOT Compiler is supported for security updates.

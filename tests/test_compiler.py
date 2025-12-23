@@ -1,3 +1,4 @@
+import numpy as np
 import pytest
 
 from qsot.core.compiler import (
@@ -5,6 +6,7 @@ from qsot.core.compiler import (
     check_axiom2_conditionability,
     run,
 )
+from qsot.physics.relativity import lorentz_factor
 from qsot.utils.math_utils import validate_density_matrix
 
 
@@ -63,7 +65,7 @@ def test_density_matrix_validation(sample_rho0):
     assert is_valid, f"Invalid density matrix: {msg}"
 
 
-@pytest.mark.parametrize("velocity", [0.0, 0.3, 0.7])
+@pytest.mark.parametrize("velocity", [0.0, 0.3, 0.7, 0.95, 0.99])
 def test_parametrized_velocities(
     tmp_path,
     sample_rho0,
@@ -87,3 +89,8 @@ def test_parametrized_velocities(
     with open(outdir / "trace.jsonl") as f:
         first_line = json.loads(f.readline())
         assert first_line["payload"]["velocity"] == velocity
+
+    if velocity > 0:
+        gamma = lorentz_factor(velocity)
+        assert gamma > 1.0
+        assert np.isfinite(gamma)

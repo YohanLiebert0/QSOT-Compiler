@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # visualizer.py - Visualize QSOT Artifacts
 import json
+import logging
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -141,6 +142,12 @@ if __name__ == "__main__":
     import argparse
     import sys
 
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(levelname)s:%(name)s:%(message)s",
+    )
+    logger = logging.getLogger(__name__)
+
     # Use non-interactive backend
     plt.switch_backend("Agg")
 
@@ -154,31 +161,34 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if not args.dir.exists():
-        print(f"Error: {args.dir} does not exist.")
+        logger.error("Artifacts directory does not exist: %s", args.dir)
         sys.exit(1)
 
-    print(f"Visualizing artifacts in {args.dir}...")
-    print(f"DEBUG: CWD={Path.cwd()}, Target={args.dir.resolve()}")
+    logger.info("Visualizing artifacts in %s", args.dir)
+    logger.debug("CWD=%s, Target=%s", Path.cwd(), args.dir.resolve())
     if args.dir.exists():
-        print(f"DEBUG: Contents: {[p.name for p in args.dir.glob('*')]}")
+        logger.debug(
+            "Contents: %s",
+            [p.name for p in args.dir.glob("*")],
+        )
 
     # Plot KD Heatmap
     kd_path = args.dir / "kd_quasiprob.json"
     if kd_path.exists():
         try:
             plot_kd_heatmap(kd_path, args.dir / "viz_kd_heatmap.png")
-            print(" Generated viz_kd_heatmap.png")
+            logger.info("Generated viz_kd_heatmap.png")
         except Exception as e:
-            print(f" Failed to plot KD Heatmap: {e}")
+            logger.exception("Failed to plot KD Heatmap: %s", e)
 
     # Plot Gate Metrics
     gate_path = args.dir / "gate_report.json"
     if gate_path.exists():
         try:
             plot_gate_metrics(gate_path, args.dir / "viz_gate_metrics.png")
-            print(" Generated viz_gate_metrics.png")
+            logger.info("Generated viz_gate_metrics.png")
         except Exception as e:
-            print(f" Failed to plot Gate Metrics: {e}")
+            logger.exception("Failed to plot Gate Metrics: %s", e)
 
     # Plot Memory Kernel
     mem_path = args.dir / "memory_report.json"
@@ -188,9 +198,9 @@ if __name__ == "__main__":
                 mem_path,
                 args.dir / "viz_memory_kernel.png",
             )
-            print(" Generated viz_memory_kernel.png (Updated Chart)")
+            logger.info("Generated viz_memory_kernel.png (Updated Chart)")
         except Exception as e:
-            print(f" Failed to plot memory kernel: {e}")
+            logger.exception("Failed to plot memory kernel: %s", e)
 
     # Plot Entanglement Evolution [v1.2.0]
     ent_path = args.dir / "entanglement_report.json"
@@ -200,6 +210,6 @@ if __name__ == "__main__":
                 ent_path,
                 args.dir / "viz_entanglement.png",
             )
-            print(" Generated viz_entanglement.png")
+            logger.info("Generated viz_entanglement.png")
         except Exception as e:
-            print(f" Failed to plot entanglement: {e}")
+            logger.exception("Failed to plot entanglement: %s", e)

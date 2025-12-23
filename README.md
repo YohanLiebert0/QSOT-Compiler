@@ -24,14 +24,17 @@ The **QSOT (Quantum State Over Time) Compiler** is the core engine of the **Flam
 ### Prerequisites
 - **Python 3.9 or higher**
 - **pip >= 21.0**
-- **(Optional)** CUDA for PyTorch GPU acceleration
+- **numpy >= 1.24.0** (required)
+- **scipy >= 1.10.0** (required)
+- **PyTorch >= 2.0** (optional, AI optimizer)
+- **(Optional)** CUDA 11.7+ for PyTorch GPU acceleration (Windows/Linux)
 
 ### Installation
 
 #### Windows (One-Click)
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/flamehaven01/QSOT-Compiler.git
+   git clone https://github.com/Flamehaven-Labs/QSOT-Compiler.git
    cd qsot-compiler
    ```
 2. **Run the Launcher:**
@@ -44,7 +47,7 @@ The **QSOT (Quantum State Over Time) Compiler** is the core engine of the **Flam
 
 #### Linux/macOS
 ```bash
-git clone https://github.com/flamehaven01/QSOT-Compiler.git
+git clone https://github.com/Flamehaven-Labs/QSOT-Compiler.git
 cd qsot-compiler
 python3 -m venv .venv
 source .venv/bin/activate
@@ -70,6 +73,18 @@ artifacts/demo/
 ├── entanglement_report.json # Temporal correlation metrics
 └── LB_PROTOCOL.txt         # Lab notebook format
 ```
+
+### Troubleshooting
+- **Apple Silicon (M1/M2)**: Install a compatible PyTorch wheel for macOS ARM64.
+  - Example: `python -m pip install torch --index-url https://download.pytorch.org/whl/cpu`
+- **CUDA (Windows/Linux)**: Ensure CUDA 11.7+ and a compatible GPU driver before enabling GPU acceleration.
+
+---
+
+## [B] Known Limitations
+- PyTorch GPU acceleration requires CUDA 11.7+ (Windows/Linux only).
+- Memory kernel computation scales O(n^3) with channel count.
+- Relativistic corrections assume inertial frames (no GR effects).
 
 ---
 

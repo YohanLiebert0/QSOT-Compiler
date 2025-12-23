@@ -45,9 +45,20 @@ class Trace:
     def __init__(self, path: Path):
         self.path = path
         self.prev = "0" * 64
-        self.f = open(path, "w", encoding="utf-8")
+        self.f = None
+
+    def __enter__(self):
+        self.f = open(self.path, "w", encoding="utf-8")
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        if self.f:
+            self.f.close()
+            self.f = None
 
     def emit(self, step: str, payload: Dict[str, Any]) -> None:
+        if self.f is None:
+            raise RuntimeError("Trace not opened (use context manager).")
         entry = {
             "ts": time.time(),
             "step": step,
@@ -68,6 +79,7 @@ class KrausChannel:
     kraus: List[np.ndarray]
 
     def apply(self, rho: np.ndarray) -> np.ndarray:
+        """Apply Kraus operators: E(rho) = sum_i K_i rho K_i^dagger."""
         out = np.zeros_like(rho, dtype=np.complex128)
         for k in self.kraus:
             out += k @ rho @ k.conj().T
@@ -140,90 +152,92 @@ def run(
     out_path = Path(outdir)
     out_path.mkdir(parents=True, exist_ok=True)
 
-    trace = Trace(out_path / "trace.jsonl")
-    trace.emit("init", {"velocity": observer_velocity, "version": "1.2.3"})
+    with Trace(out_path / "trace.jsonl") as trace:
+        trace.emit("init", {"velocity": observer_velocity, "version": "1.2.3"})
 
-    # [Relativity Logic Injection]
-    active_channels = []
-    if observer_velocity > 0 and boost_damping_channel:
-        print(f"[!] Relativistic Boost Enabled: v={observer_velocity}c")
+        # [Relativity Logic Injection]
+        active_channels = []
+        if observer_velocity > 0 and boost_damping_channel:
+            print(f"[!] Relativistic Boost Enabled: v={observer_velocity}c")
 
-        for ch in channels:
-            if "PhaseDamping" in ch.name or "Damping" in ch.name:
-                # Generalize for OscillatingDamping too?
-                # For v1.2.0, apply to any damping-like channel where K0 is diagonal
-                k0_11 = ch.kraus[0][1, 1]
-                p_rest = 1.0 - np.abs(k0_11) ** 2
+            for ch in channels:
+                if "PhaseDamping" in ch.name or "Damping" in ch.name:
+                    # Generalize for OscillatingDamping too?
+                    # For v1.2.0, apply to any damping-like channel where K0 is diagonal
+                    k0_11 = ch.kraus[0][1, 1]
+                    p_rest = 1.0 - np.abs(k0_11) ** 2
 
-                # Apply Lorentz Boost
-                p_boost = boost_damping_channel(p_rest, observer_velocity)
+                    # Apply Lorentz Boost
+                    p_boost = boost_damping_channel(p_rest, observer_velocity)
 
-                new_k0 = np.diag([1.0, np.sqrt(1.0 - p_boost)]).astype(np.complex128)
-                new_k1 = np.diag([0.0, np.sqrt(p_boost)]).astype(np.complex128)
-
-                active_channels.append(
-                    KrausChannel(
-                        name=f"{ch.name}_Boosted",
-                        kraus=[new_k0, new_k1],
+                    new_k0 = np.diag([1.0, np.sqrt(1.0 - p_boost)]).astype(
+                        np.complex128
                     )
-                )
-            else:
-                active_channels.append(ch)
-    else:
-        active_channels = channels
+                    new_k1 = np.diag([0.0, np.sqrt(p_boost)]).astype(np.complex128)
 
-    # 1. Evolve State (QSOT construction)
-    rho_qsot = [rho0]
-    current = rho0
-    for ch in active_channels:
-        current = ch.apply(current)
-        rho_qsot.append(current)
+                    active_channels.append(
+                        KrausChannel(
+                            name=f"{ch.name}_Boosted",
+                            kraus=[new_k0, new_k1],
+                        )
+                    )
+                else:
+                    active_channels.append(ch)
+        else:
+            active_channels = channels
 
-    # Save Real State to NPZ
-    state_dict = {f"rho_{i}": rho for i, rho in enumerate(rho_qsot)}
-    np.savez(out_path / "qsot_state.npz", **state_dict)
+        # 1. Evolve State (QSOT construction)
+        rho_qsot = [rho0]
+        current = rho0
+        for ch in active_channels:
+            current = ch.apply(current)
+            rho_qsot.append(current)
 
-    # 2. Gate Validation
-    ax1_res = check_axiom1_linearity(active_channels, seed=seed, tol_abs=tol_abs)
-    ax2_res = check_axiom2_conditionability(
-        rho_qsot,
-        active_channels,
-        tol_abs=tol_abs,
-    )
+        # Save Real State to NPZ
+        state_dict = {f"rho_{i}": rho for i, rho in enumerate(rho_qsot)}
+        np.savez(out_path / "qsot_state.npz", **state_dict)
 
-    gate_report = {
-        "pass": ax1_res["pass"] and ax2_res["pass"],
-        "axiom1_report": ax1_res,
-        "axiom2_report": ax2_res,
-        "velocity": observer_velocity,
-    }
-
-    # 3. Memory Kernel (Real TTM)
-    if compute_memory_kernel:
-        mem_report = compute_memory_kernel(rho_qsot, active_channels)
-    else:
-        mem_report = {"error": "memory_kernel missing"}
-
-    # 4. Entanglement Analysis [v1.2.0 New]
-    ent_report = {}
-    if compute_correlation_profile:
-        ent_report = compute_correlation_profile(rho_qsot)
-        (out_path / "entanglement_report.json").write_text(
-            json.dumps(ent_report, indent=2)
+        # 2. Gate Validation
+        ax1_res = check_axiom1_linearity(active_channels, seed=seed, tol_abs=tol_abs)
+        ax2_res = check_axiom2_conditionability(
+            rho_qsot,
+            active_channels,
+            tol_abs=tol_abs,
         )
 
-    # Write Artifacts
-    (out_path / "gate_report.json").write_text(json.dumps(gate_report, indent=2))
-    (out_path / "memory_report.json").write_text(json.dumps(mem_report, indent=2))
+        gate_report = {
+            "pass": ax1_res["pass"] and ax2_res["pass"],
+            "axiom1_report": ax1_res,
+            "axiom2_report": ax2_res,
+            "velocity": observer_velocity,
+        }
 
-    # Mock KD for visuals
-    kd_data = {"entries": [], "metrics": {"kd_negativity_proxy": 0.0}}
-    (out_path / "kd_quasiprob.json").write_text(json.dumps(kd_data, indent=2))
+        # 3. Memory Kernel (Real TTM)
+        if compute_memory_kernel:
+            mem_report = compute_memory_kernel(rho_qsot, active_channels)
+        else:
+            mem_report = {"error": "memory_kernel missing"}
 
-    trace.emit(
-        "complete",
-        {"status": "success", "entanglement": ent_report.get("avg_value", 0)},
-    )
+        # 4. Entanglement Analysis [v1.2.0 New]
+        ent_report = {}
+        if compute_correlation_profile:
+            ent_report = compute_correlation_profile(rho_qsot)
+            (out_path / "entanglement_report.json").write_text(
+                json.dumps(ent_report, indent=2)
+            )
+
+        # Write Artifacts
+        (out_path / "gate_report.json").write_text(json.dumps(gate_report, indent=2))
+        (out_path / "memory_report.json").write_text(json.dumps(mem_report, indent=2))
+
+        # Mock KD for visuals
+        kd_data = {"entries": [], "metrics": {"kd_negativity_proxy": 0.0}}
+        (out_path / "kd_quasiprob.json").write_text(json.dumps(kd_data, indent=2))
+
+        trace.emit(
+            "complete",
+            {"status": "success", "entanglement": ent_report.get("avg_value", 0)},
+        )
 
     print(f"Gate Pass: {gate_report['pass']}")
     print(f"Artifacts generated in {outdir}")
