@@ -77,9 +77,10 @@ The QSOT Compiler v1.2.3 represents both a **software engineering achievement** 
 - Dashboard response time: <200ms (Streamlit profiling data)
 
 #### 6. Availability & Reproducibility
-- GitHub: https://github.com/flamehaven01/QSOT-Compiler
+- GitHub: https://github.com/Flamehaven-Labs/QSOT-Compiler
 - Docker Hub: (to be published)
-- Zenodo DOI: (to be assigned upon submission)
+- Zenodo DOI (latest release): 10.5281/zenodo.18035432
+- Zenodo DOI (badge target): 10.5281/zenodo.18035246
 
 ---
 

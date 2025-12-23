@@ -1,6 +1,6 @@
 # QSOT (Quantum State Over Time) Compiler
 
-![Python](https://img.shields.io/badge/python-3.9%2B-blue?style=for-the-badge&logo=python) ![Torch](https://img.shields.io/badge/PyTorch-2.0%2B%20(Optional)-orange?style=for-the-badge&logo=pytorch) ![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge) ![Drift-Free](https://img.shields.io/badge/Drift--Free-Certified-purple?style=for-the-badge)
+![Python](https://img.shields.io/badge/python-3.9%2B-blue?style=for-the-badge&logo=python) ![Torch](https://img.shields.io/badge/PyTorch-2.0%2B%20(Optional)-orange?style=for-the-badge&logo=pytorch) ![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge) ![Drift-Free](https://img.shields.io/badge/Drift--Free-Certified-purple?style=for-the-badge) [![DOI](https://zenodo.org/badge/1121737666.svg)](https://doi.org/10.5281/zenodo.18035246)
 
 > **"Time is not just a parameter; it is an entangled quantum state."**
 
@@ -184,13 +184,17 @@ pip install torch --index-url https://download.pytorch.org/whl/cpu
 
 If you use QSOT Compiler in your research, please cite:
 
+Zenodo DOI (latest release): 10.5281/zenodo.18035432
+Zenodo DOI (badge target): 10.5281/zenodo.18035246
+
 ```bibtex
 @software{qsot_compiler_2025,
   title = {QSOT Compiler: Relativistic Quantum State Engine},
-  author = {Flamehaven},
+  author = {Flamehaven AI Team},
   year = {2025},
-  url = {https://github.com/flamehaven01/QSOT-Compiler},
-  version = {1.2.3}
+  version = {1.2.3},
+  doi = {10.5281/zenodo.18035432},
+  url = {https://github.com/Flamehaven-Labs/QSOT-Compiler}
 }
 ```
 

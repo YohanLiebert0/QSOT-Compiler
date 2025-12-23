@@ -152,22 +152,22 @@ def test_linearity_axiom(damping_channel):
 **Recommended Visualizations:**
 
 1. **Kirkwood-Dirac Heatmap**
-   - File: `docs/kd_heatmap.png`
+   - File: `docs/paper_data/figures/kd_heatmap.png`
    - Shows quasi-probability distribution
    - Negative values indicate contextuality
 
 2. **Axiom Integrity Plot**
-   - File: `docs/gate_metrics.png`
+   - File: `docs/paper_data/figures/gate_metrics.png`
    - Linearity and trace preservation
    - Log-scale deviation plot
 
 3. **Entanglement Evolution**
-   - File: `docs/entanglement.png`
+   - File: `docs/paper_data/figures/entanglement.png`
    - Temporal correlation trajectory
    - Logarithmic negativity vs. time
 
 4. **Memory Kernel Profile**
-   - File: `docs/memory_kernel.png`
+   - File: `docs/paper_data/figures/memory_kernel.png`
    - Non-Markovian deviation
    - TTM analysis results
 
