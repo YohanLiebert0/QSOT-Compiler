@@ -2,7 +2,7 @@
 
 ![Python](https://img.shields.io/badge/python-3.9%2B-blue?style=for-the-badge&logo=python) ![Torch](https://img.shields.io/badge/PyTorch-2.0%2B%20(Optional)-orange?style=for-the-badge&logo=pytorch) ![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge) ![Drift-Free](https://img.shields.io/badge/Drift--Free-Certified-purple?style=for-the-badge) [![DOI](https://zenodo.org/badge/1121737666.svg)](https://doi.org/10.5281/zenodo.18035246)
 
-> **"Time is not just a parameter; it is an entangled quantum state."**
+<p align="center"><strong>"Time is not just a parameter; it is an entangled quantum state."</strong></p>
 
 The **QSOT (Quantum State Over Time) Compiler** is the core engine of the **Flamehaven TOE (Theory of Everything)** framework. It validates the "Time-as-State" hypothesis by treating temporal evolution as a quantum correlation problem, using **AI-Driven Optimization** and **Relativistic Corrections** to map the causal horizon.
 <div style="margin-top:40px;"></div>
