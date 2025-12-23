@@ -81,7 +81,7 @@ Quantum simulation \sep Special relativity \sep Automated verification \sep Prot
 \linenumbers
 
 \section{Introduction}
-Quantum information processing under special relativistic conditions represents an emerging research frontier [1-3]. While foundational work established theoretical frameworks, computational tools remain fragmented. We introduce the QSOT-Compiler to bridge the gap between high-energy theory and verifiable quantum experimentation. A companion physics manuscript (Paper B) reports the relativistic coherence results (arXiv: TBD).
+Quantum information processing under special relativistic conditions represents an emerging research frontier \cite{Peres2004,Gingrich2002,Bedingham2018}. Recent satellite and free-space QKD experiments demonstrate the practical relevance of relativistic and long-distance quantum channels \cite{Khmelev2023,Mishra2021}. Modern open-source toolboxes such as QuTiP (including the QuTiP 5 release) provide powerful non-relativistic simulation infrastructure \cite{Johansson2013,QuTiP5}; however, computational tools for Lorentz-boosted channels and TTM-based verification remain fragmented. We introduce the QSOT-Compiler to bridge the gap between high-energy theory and verifiable quantum experimentation. A companion physics manuscript (Paper B) reports the relativistic coherence results (arXiv: TBD).
 
 \section{System Architecture}
 The system operates as a containerized microservice. The core pipeline consists of:
@@ -169,15 +169,16 @@ The current limit of $\approx 14$ qubits (16GB RAM) follows from full density ma
 QSOT-Compiler provides a robust, automated platform for relativistic quantum research. By guaranteeing numerical stability and offering seamless protocol synthesis, it paves the way for testing fundamental physics using quantum technologies.
 
 \section*{References}
-\begin{enumerate}
-    \item A. Peres, D. R. Terno, \textit{Quantum information and relativity theory}, Rev. Mod. Phys. 76, 93 (2004). (Foundational relativity)
-    \item R. M. Gingrich, C. Adami, \textit{Quantum Entanglement of Moving Bodies}, Phys. Rev. Lett. 89, 270402 (2002). (Spin-momentum trade-off)
-    \item J. R. Johansson et al., \textit{QuTiP 2: A Python framework for the dynamics of open quantum systems}, Comput. Phys. Commun. 184, 1234 (2013). (See also QuTiP 5 release).
-    \item S. K. Liao et al., \textit{Satellite-to-ground quantum key distribution}, Nature 549, 43 (2017). (Relativistic QKD context).
-    \item D. Bedingham et al., \textit{Relativistic collapse models}, Nat. Commun. 9, 1453 (2018).
-    \item QuTiP 5 Project, \textit{The Quantum Toolbox in Python} (2023). https://qutip.org/.
-    \item [PLACEHOLDER] Recent experimental demonstrations in relativistic quantum information (2020--2024); insert specific citations here.
-\end{enumerate}
+\begin{thebibliography}{99}
+\bibitem{Peres2004} A. Peres, D. R. Terno, \textit{Quantum information and relativity theory}, Rev. Mod. Phys. 76, 93 (2004).
+\bibitem{Gingrich2002} R. M. Gingrich, C. Adami, \textit{Quantum Entanglement of Moving Bodies}, Phys. Rev. Lett. 89, 270402 (2002).
+\bibitem{Johansson2013} J. R. Johansson et al., \textit{QuTiP 2: A Python framework for the dynamics of open quantum systems}, Comput. Phys. Commun. 184, 1234 (2013).
+\bibitem{Liao2017} S. K. Liao et al., \textit{Satellite-to-ground quantum key distribution}, Nature 549, 43 (2017).
+\bibitem{Bedingham2018} D. Bedingham et al., \textit{Relativistic collapse models}, Nat. Commun. 9, 1453 (2018).
+\bibitem{QuTiP5} N. Lambert et al., \textit{QuTiP 5: The Quantum Toolbox in Python}, arXiv:2412.04705 (2024).
+\bibitem{Khmelev2023} A. V. Khmelev et al., \textit{Eurasian-Scale Experimental Satellite-based Quantum Key Distribution with Detector Efficiency Mismatch Analysis}, arXiv:2310.17476 (2023).
+\bibitem{Mishra2021} S. Mishra et al., \textit{BBM92 quantum key distribution over a free space dusty channel of 200 meters}, arXiv:2112.11961 (2021).
+\end{thebibliography}
 
 \begin{figure}[h]
     \centering
